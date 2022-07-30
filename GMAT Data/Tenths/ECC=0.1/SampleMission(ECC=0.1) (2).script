@@ -1,0 +1,188 @@
+%General Mission Analysis Tool(GMAT) Script
+%Created: 2022-07-19 23:16:49
+
+
+%----------------------------------------
+%---------- Spacecraft
+%----------------------------------------
+
+Create Spacecraft Satellite;
+GMAT Satellite.DateFormat = UTCGregorian;
+GMAT Satellite.Epoch = '01 Jan 2000 12:00:00.000';
+GMAT Satellite.CoordinateSystem = EarthMJ2000Eq;
+GMAT Satellite.DisplayStateType = Keplerian;
+GMAT Satellite.SMA = 7191.938817629009;
+GMAT Satellite.ECC = 0.01000000000000023;
+GMAT Satellite.INC = 12.85008005658097;
+GMAT Satellite.RAAN = 306.6148021947984;
+GMAT Satellite.AOP = 314.1905515359907;
+GMAT Satellite.TA = 99.88774933205023;
+GMAT Satellite.DryMass = 850;
+GMAT Satellite.Cd = 2.2;
+GMAT Satellite.Cr = 1.8;
+GMAT Satellite.DragArea = 15;
+GMAT Satellite.SRPArea = 1;
+GMAT Satellite.SPADDragScaleFactor = 1;
+GMAT Satellite.SPADSRPScaleFactor = 1;
+GMAT Satellite.NAIFId = -10000001;
+GMAT Satellite.NAIFIdReferenceFrame = -9000001;
+GMAT Satellite.OrbitColor = Red;
+GMAT Satellite.TargetColor = Teal;
+GMAT Satellite.OrbitErrorCovariance = [ 1e+70 0 0 0 0 0 ; 0 1e+70 0 0 0 0 ; 0 0 1e+70 0 0 0 ; 0 0 0 1e+70 0 0 ; 0 0 0 0 1e+70 0 ; 0 0 0 0 0 1e+70 ];
+GMAT Satellite.CdSigma = 1e+70;
+GMAT Satellite.CrSigma = 1e+70;
+GMAT Satellite.Id = 'SatId';
+GMAT Satellite.Attitude = CoordinateSystemFixed;
+GMAT Satellite.SPADSRPInterpolationMethod = Bilinear;
+GMAT Satellite.SPADSRPScaleFactorSigma = 1e+70;
+GMAT Satellite.SPADDragInterpolationMethod = Bilinear;
+GMAT Satellite.SPADDragScaleFactorSigma = 1e+70;
+GMAT Satellite.ModelFile = 'aura.3ds';
+GMAT Satellite.ModelOffsetX = 0;
+GMAT Satellite.ModelOffsetY = 0;
+GMAT Satellite.ModelOffsetZ = 0;
+GMAT Satellite.ModelRotationX = 0;
+GMAT Satellite.ModelRotationY = 0;
+GMAT Satellite.ModelRotationZ = 0;
+GMAT Satellite.ModelScale = 1;
+GMAT Satellite.AttitudeDisplayStateType = 'Quaternion';
+GMAT Satellite.AttitudeRateDisplayStateType = 'AngularVelocity';
+GMAT Satellite.AttitudeCoordinateSystem = EarthMJ2000Eq;
+GMAT Satellite.EulerAngleSequence = '321';
+
+%----------------------------------------
+%---------- ForceModels
+%----------------------------------------
+
+Create ForceModel Propagator_ForceModel;
+GMAT Propagator_ForceModel.CentralBody = Earth;
+GMAT Propagator_ForceModel.PointMasses = {Earth};
+GMAT Propagator_ForceModel.Drag = None;
+GMAT Propagator_ForceModel.SRP = Off;
+GMAT Propagator_ForceModel.RelativisticCorrection = Off;
+GMAT Propagator_ForceModel.ErrorControl = RSSStep;
+
+%----------------------------------------
+%---------- Propagators
+%----------------------------------------
+
+Create Propagator Propagator;
+GMAT Propagator.FM = Propagator_ForceModel;
+GMAT Propagator.Type = RungeKutta89;
+GMAT Propagator.InitialStepSize = 60;
+GMAT Propagator.Accuracy = 9.999999999999999e-12;
+GMAT Propagator.MinStep = 0.001;
+GMAT Propagator.MaxStep = 2700;
+GMAT Propagator.MaxStepAttempts = 50;
+GMAT Propagator.StopIfAccuracyIsViolated = true;
+
+%----------------------------------------
+%---------- Subscribers
+%----------------------------------------
+
+Create OrbitView DefaultOrbitView;
+GMAT DefaultOrbitView.SolverIterations = Current;
+GMAT DefaultOrbitView.UpperLeft = [ 0.002455795677799607 0 ];
+GMAT DefaultOrbitView.Size = [ 0.5 0.4503257328990228 ];
+GMAT DefaultOrbitView.RelativeZOrder = 120;
+GMAT DefaultOrbitView.Maximized = false;
+GMAT DefaultOrbitView.Add = {Satellite, Earth};
+GMAT DefaultOrbitView.CoordinateSystem = EarthMJ2000Eq;
+GMAT DefaultOrbitView.DrawObject = [ true true ];
+GMAT DefaultOrbitView.DataCollectFrequency = 1;
+GMAT DefaultOrbitView.UpdatePlotFrequency = 50;
+GMAT DefaultOrbitView.NumPointsToRedraw = 0;
+GMAT DefaultOrbitView.ShowPlot = true;
+GMAT DefaultOrbitView.MaxPlotPoints = 20000;
+GMAT DefaultOrbitView.ShowLabels = true;
+GMAT DefaultOrbitView.ViewPointReference = Earth;
+GMAT DefaultOrbitView.ViewPointVector = [ 30000 0 0 ];
+GMAT DefaultOrbitView.ViewDirection = Earth;
+GMAT DefaultOrbitView.ViewScaleFactor = 1;
+GMAT DefaultOrbitView.ViewUpCoordinateSystem = EarthMJ2000Eq;
+GMAT DefaultOrbitView.ViewUpAxis = Z;
+GMAT DefaultOrbitView.EclipticPlane = Off;
+GMAT DefaultOrbitView.XYPlane = Off;
+GMAT DefaultOrbitView.WireFrame = Off;
+GMAT DefaultOrbitView.Axes = On;
+GMAT DefaultOrbitView.Grid = Off;
+GMAT DefaultOrbitView.SunLine = Off;
+GMAT DefaultOrbitView.UseInitialView = On;
+GMAT DefaultOrbitView.StarCount = 7000;
+GMAT DefaultOrbitView.EnableStars = On;
+GMAT DefaultOrbitView.EnableConstellations = On;
+
+Create GroundTrackPlot DefaultGroundTrackPlot;
+GMAT DefaultGroundTrackPlot.SolverIterations = Current;
+GMAT DefaultGroundTrackPlot.UpperLeft = [ 0.002455795677799607 0.4535830618892508 ];
+GMAT DefaultGroundTrackPlot.Size = [ 0.5 0.4503257328990228 ];
+GMAT DefaultGroundTrackPlot.RelativeZOrder = 41;
+GMAT DefaultGroundTrackPlot.Maximized = false;
+GMAT DefaultGroundTrackPlot.Add = {Satellite};
+GMAT DefaultGroundTrackPlot.DataCollectFrequency = 1;
+GMAT DefaultGroundTrackPlot.UpdatePlotFrequency = 50;
+GMAT DefaultGroundTrackPlot.NumPointsToRedraw = 0;
+GMAT DefaultGroundTrackPlot.ShowPlot = true;
+GMAT DefaultGroundTrackPlot.MaxPlotPoints = 20000;
+GMAT DefaultGroundTrackPlot.CentralBody = Earth;
+GMAT DefaultGroundTrackPlot.TextureMap = 'ModifiedBlueMarble.jpg';
+
+Create ReportFile Seconds_One;
+GMAT Seconds_One.SolverIterations = Current;
+GMAT Seconds_One.UpperLeft = [ 0.1571709233791748 0.260586319218241 ];
+GMAT Seconds_One.Size = [ 0.599705304518664 0.7988599348534202 ];
+GMAT Seconds_One.RelativeZOrder = 47;
+GMAT Seconds_One.Maximized = false;
+GMAT Seconds_One.Filename = 'C:\Users\manra\Downloads\gmat-win-R2020a\ECC=0.1\Seconds';
+GMAT Seconds_One.Precision = 16;
+GMAT Seconds_One.Add = {Satellite.ElapsedSecs};
+GMAT Seconds_One.WriteHeaders = false;
+GMAT Seconds_One.LeftJustify = On;
+GMAT Seconds_One.ZeroFill = On;
+GMAT Seconds_One.FixedWidth = true;
+GMAT Seconds_One.Delimiter = ' ';
+GMAT Seconds_One.ColumnWidth = 23;
+GMAT Seconds_One.WriteReport = true;
+
+Create ReportFile Latitude_One;
+GMAT Latitude_One.SolverIterations = Current;
+GMAT Latitude_One.UpperLeft = [ 0 0 ];
+GMAT Latitude_One.Size = [ 0 0 ];
+GMAT Latitude_One.RelativeZOrder = 0;
+GMAT Latitude_One.Maximized = false;
+GMAT Latitude_One.Filename = 'C:\Users\manra\Downloads\gmat-win-R2020a\ECC=0.1\Lat';
+GMAT Latitude_One.Precision = 16;
+GMAT Latitude_One.Add = {Satellite.Earth.Latitude};
+GMAT Latitude_One.WriteHeaders = false;
+GMAT Latitude_One.LeftJustify = On;
+GMAT Latitude_One.ZeroFill = On;
+GMAT Latitude_One.FixedWidth = true;
+GMAT Latitude_One.Delimiter = ' ';
+GMAT Latitude_One.ColumnWidth = 23;
+GMAT Latitude_One.WriteReport = true;
+
+Create ReportFile Longitude_One;
+GMAT Longitude_One.SolverIterations = Current;
+GMAT Longitude_One.UpperLeft = [ 0 0 ];
+GMAT Longitude_One.Size = [ 0 0 ];
+GMAT Longitude_One.RelativeZOrder = 0;
+GMAT Longitude_One.Maximized = false;
+GMAT Longitude_One.Filename = 'C:\Users\manra\Downloads\gmat-win-R2020a\ECC=0.1\Long';
+GMAT Longitude_One.Precision = 16;
+GMAT Longitude_One.Add = {Satellite.Earth.Longitude};
+GMAT Longitude_One.WriteHeaders = false;
+GMAT Longitude_One.LeftJustify = On;
+GMAT Longitude_One.ZeroFill = On;
+GMAT Longitude_One.FixedWidth = true;
+GMAT Longitude_One.Delimiter = ' ';
+GMAT Longitude_One.ColumnWidth = 23;
+GMAT Longitude_One.WriteReport = true;
+
+
+%----------------------------------------
+%---------- Mission Sequence
+%----------------------------------------
+
+BeginMissionSequence;
+Propagate Propagator(Satellite) {Satellite.Earth.Periapsis};
+Propagate Propagator(Satellite) {Satellite.Earth.Apoapsis};
