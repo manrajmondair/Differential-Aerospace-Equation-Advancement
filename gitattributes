@@ -1,0 +1,6 @@
+*.m linguist-detectable=true 
+*.mat linguist-detectable=true 
+*.html linguist-detectable=false 
+*.py linguist-detectable=false  
+*.js linguist-detectable=false  
+*.tf linguist-detectable=false     
